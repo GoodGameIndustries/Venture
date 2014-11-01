@@ -9,4 +9,8 @@ package com.GGI.Map;
  */
 public class Map {
 
+	public Map(String mapS) {
+		// TODO Auto-generated constructor stub
+	}
+
 }
