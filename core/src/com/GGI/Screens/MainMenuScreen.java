@@ -3,12 +3,15 @@
  */
 package com.GGI.Screens;
 
+import com.GGI.GameOBJ.Gun;
+import com.GGI.GameOBJ.Player;
+import com.GGI.GameOBJ.Shield;
+import com.GGI.GameOBJ.Thruster;
 import com.GGI.UI.Button;
 import com.GGI.Venture.Venture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,10 +28,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	private Button play = new Button("UI/PlayUp.png","UI/PlayDown.png");
 	private Button help = new Button("UI/HelpUp.png","UI/HelpDown.png");
 	private BitmapFont fnt = new BitmapFont();
+	private Player player;
 	
 	public MainMenuScreen(Venture g) {
 		this.g=g;
 		fnt.scale(w/1000);
+		player = g.assets.player;
 	}
 
 	/* (non-Javadoc)
@@ -43,7 +48,26 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		//bg
 		pic.draw(g.assets.concrete,0,0,w,w);
 		pic.draw(g.assets.black, (int)(w-(.4*w)),0,(int)(.35*w),h);
-		pic.draw(g.assets.player.getText(),(int)(.05*w),(int)((.5*h)-(.25*w)),(int)(.5*w),(int)(.5*w));
+		pic.draw(g.assets.player.getText(),(int)(.05*w),(int)(.04*w),(int)(.5*w),(int)(.5*w));
+		
+		for(int i = 0; i <player.guns.size(); i++){
+			Gun temp = player.guns.get(i);
+			if(temp.texture!=null){
+			pic.draw(temp.texture,(float) ((.05f+(g.assets.stats[player.base].points[i].x/(g.assets.stats[player.base].scale*0.5)))*w), (float)((.04f+(g.assets.stats[player.base].points[i].y/(g.assets.stats[player.base].scale*0.5)))*h), (float)(((player.bounds.width*g.assets.stats[player.base].scale)*w)/2), (float)(((player.bounds.height*g.assets.stats[player.base].scale)*w)/2), (float)((.5f*g.assets.stats[player.base].scale)*w),(float) ((.5f*g.assets.stats[player.base].scale)*w), 1f, 1f, player.rotation);
+			}
+		}
+		for(int i = player.guns.size(); i <player.guns.size()+player.shields.size(); i++){
+			Shield temp = player.shields.get(i-player.guns.size());
+			if(temp.texture!=null){
+			pic.draw(temp.texture,(float) ((.05f+(g.assets.stats[player.base].points[i].x/(g.assets.stats[player.base].scale*0.5)))*w), (float)((.04f+(g.assets.stats[player.base].points[i].y/(g.assets.stats[player.base].scale*0.5)))*h), (float)(((player.bounds.width*g.assets.stats[player.base].scale)*w)/2), (float)(((player.bounds.height*g.assets.stats[player.base].scale)*w)/2), (float)((.5f*g.assets.stats[player.base].scale)*w),(float) ((.5f*g.assets.stats[player.base].scale)*w), 1f, 1f, player.rotation);
+			}
+		}
+		for(int i = (player.guns.size()+player.shields.size()); i <(player.guns.size()+player.shields.size())+player.thrusters.size(); i++){
+			Thruster temp = player.thrusters.get(i-(player.guns.size()+player.shields.size()));
+			if(temp.texture!=null){
+			pic.draw(temp.texture,(float) ((.05f+(g.assets.stats[player.base].points[i].x/(g.assets.stats[player.base].scale*0.5)))*w), (float)((.04f+(g.assets.stats[player.base].points[i].y/(g.assets.stats[player.base].scale*0.5)))*h), (float)(((player.bounds.width*g.assets.stats[player.base].scale)*w)/2), (float)(((player.bounds.height*g.assets.stats[player.base].scale)*w)/2), (float)((.5f*g.assets.stats[player.base].scale)*w),(float) ((.5f*g.assets.stats[player.base].scale)*w), 1f, 1f, player.rotation);
+			}
+		}
 		//end bg
 		
 		//buttons and title
@@ -155,6 +179,16 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		screenY = h-screenY;
 		play.release();
 		help.release();
+		
+		if(screenX>(int)(w-(.35*w)) && screenX<(int)(w-(.1*w))){
+			//System.out.println("x");
+			if(screenY>(int)(.05*h)&&screenY<(int)((.05*h)+(.15*h))){
+				//help.press();
+			}
+			else if(screenY>(int)(.2*h)&&screenY<(int)((.2*h)+(.15*h))){
+				g.setScreen(new GameScreen(g));
+			}
+		}
 		
 		return true;
 	}

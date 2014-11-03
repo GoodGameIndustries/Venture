@@ -19,21 +19,23 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Ship {
 
-	private int base;
-	private ArrayList<Gun> guns = new ArrayList<Gun>();
-	private ArrayList<Shield> shields = new ArrayList<Shield>();
-	private ArrayList<Thruster> thrusters = new ArrayList<Thruster>();
+	public int base;
+	public ArrayList<Gun> guns = new ArrayList<Gun>();
+	public ArrayList<Shield> shields = new ArrayList<Shield>();
+	public ArrayList<Thruster> thrusters = new ArrayList<Thruster>();
 	private Texture baseText;
 	private Venture g;
-	private Vector2 position;
-	private Vector2 velocity;
-	private Rectangle bounds;
+	public Vector2 position = new Vector2();
+	public Vector2 velocity = new Vector2();
+	public Rectangle bounds = new Rectangle();
 	private int w = Gdx.graphics.getWidth(),h = Gdx.graphics.getHeight();
 	private float maxVelocity;
 	private float maxSteer;
-	private float rotation;
+	public float rotation;
 	
 	public Ship(String s,Assets a){
+		
+		
 		this.g=g;
 		//base,guns,(each gun),shields,(each shield),thrusters,(each thruster)
 		String[] breakDown = s.split(",");
@@ -41,20 +43,28 @@ public class Ship {
 		int numGuns = Integer.parseInt(breakDown[1]);
 		int index = 2;
 		for(int i = index; i < index+numGuns;i++){
-			guns.add(new Gun(breakDown[i]));
+			guns.add(new Gun(breakDown[i],a));
 		}
 		int numShield = Integer.parseInt(breakDown[index+numGuns]);
 		index = index+numGuns+1;
 		for(int i = index; i < index+numShield;i++){
-			shields.add(new Shield(breakDown[i]));
+			shields.add(new Shield(breakDown[i],a));
 		}
 		//int numThrust = Integer.parseInt(breakDown[index+numShield]);
 		index = index+numShield+1;
 		for(int i = index; i < breakDown.length; i++){
-			thrusters.add(new Thruster(breakDown[i]));
+			thrusters.add(new Thruster(breakDown[i],a));
 		}
 		//System.out.println(base);
-		//base = 8;
+		//base = 9;
+		
+		position.x=.5f;
+		position.y=.5f;
+		velocity.x= 0f;
+		velocity.y= 0f;
+		bounds.width= a.stats[base].bounds;
+		bounds.height=a.stats[base].bounds;
+		
 		baseText = a.bases.get(base);
 		
 	}
