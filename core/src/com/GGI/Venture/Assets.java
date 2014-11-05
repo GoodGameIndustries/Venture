@@ -55,18 +55,18 @@ public class Assets {
 
 	private void setup() {
 		if(!Gdx.files.local("Map.txt").exists()){
-			FileHandle from = Gdx.files.internal("Map.txt");
-			from.copyTo(Gdx.files.local("Map.txt"));
+			FileHandle fromM = Gdx.files.internal("Map.txt");
+			fromM.copyTo(Gdx.files.local("Map.txt"));
 		}
 		
 		if(!Gdx.files.local("Ship.txt").exists()){
-			FileHandle from = Gdx.files.internal("Ship.txt");
-			from.copyTo(Gdx.files.local("Ship.txt"));
+			FileHandle fromS = Gdx.files.internal("Ship.txt");
+			fromS.copyTo(Gdx.files.local("Ship.txt"));
 		}
 		
 		if(!Gdx.files.local("Stats.txt").exists()){
-			FileHandle from = Gdx.files.internal("Stats.txt");
-			from.copyTo(Gdx.files.local("Stats.txt"));
+			FileHandle fromSt = Gdx.files.internal("Stats.txt");
+			fromSt.copyTo(Gdx.files.local("Stats.txt"));
 		}
 		
 	}
@@ -87,7 +87,20 @@ public class Assets {
 		
 		//base stats
 		stats = new ShipStat[bases.size()];
-		stats[0] =new ShipStat(new Vector2[]{new Vector2(.003f,.034f),new Vector2(.058f,.034f),new Vector2(.030f,.084f),new Vector2(.030f,-.02f)},100,.4f,.04f);
+		stats[0] =new ShipStat(new Vector2[]{new Vector2(.03f,.17f),new Vector2(.57f,.17f),new Vector2(.3f,.435f),new Vector2(.3f,-.1f)},100,.4f,.04f);
+		
+		stats[1] =new ShipStat(new Vector2[]{new Vector2(.04f,.38f),new Vector2(.64f,.38f),new Vector2(.34f,.53f),new Vector2(.34f,.38f),new Vector2(.04f,-.07f),new Vector2(.34f,-.07f),new Vector2(.64f,-.07f)},200,.32f,.045f);
+		
+		stats[2] =new ShipStat(new Vector2[]{new Vector2(-.035f,.46f),new Vector2(.16f,.53f),new Vector2(.56f,.53f),new Vector2(.755f,.46f),new Vector2(.36f,.59f),
+											 new Vector2(.36f,.33f),new Vector2(-.035f,.2f),new Vector2(.1f,.06f),new Vector2(.36f,-.07f),new Vector2(.625f,.06f),
+											 new Vector2(.755f,.2f)},200,.28f,.045f);
+	    
+		stats[3] =new ShipStat(new Vector2[]{new Vector2(.165f,.333f),new Vector2(.04f,.453f),new Vector2(.165f,.573f),new Vector2(.285f,.613f),new Vector2(.525f,.613f),
+	    									 new Vector2(.645f,.333f),new Vector2(.765f,.453f),new Vector2(.645f,.573f),new Vector2(.405f,.66f),new Vector2(.405f,.498f),
+	    									 new Vector2(.405f,.338f),new Vector2(-.035f,.46f),new Vector2(.16f,.53f),new Vector2(.56f,.53f),new Vector2(.755f,.46f),
+	    									 new Vector2(.36f,.59f),new Vector2(.36f,.33f),new Vector2(-.035f,.2f),new Vector2(.1f,.06f), new Vector2(.36f,.59f),
+	    									 new Vector2(.36f,.33f)},200,.17f,.045f);
+		
 		stats[9] =new ShipStat(new Vector2[]{new Vector2(.2f,.3f)},100,.4f,.09f);
 		//end base stats
 		
@@ -127,7 +140,11 @@ public class Assets {
 		
 		FileHandle shipFile = Gdx.files.local("Ship.txt");
 		String shipS = shipFile.readString();
+		//TESTING
+		shipS = "3,8,10,10,20,30,30,20,10,10,3,10,20,30,10,10,20,30,20,10,10,20,30,20,10";
+		//END TESTING
 		player = new Player(shipS,this);
+		player.genGuns();
 		
 		FileHandle statsFile = Gdx.files.local("Stats.txt");
 		String[] stats = statsFile.readString().split(",");

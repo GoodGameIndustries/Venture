@@ -11,9 +11,27 @@ import com.GGI.Venture.Venture;
  *
  */
 public class Player extends Ship{
+	public Assets a;
+	
+	public Player(String s,Assets a){
+		super(s,a);
+		this.a=a;
+		stats = a.stats[this.base];
+		bounds.width = .5f;
+		bounds.height = .5f;
+		position.x = .05f;
+		position.y = .04f;
+	}
 
-	public Player(String s,Assets g){
-		super(s,g);
+	public void play(){
+		stats.clear();
+		guns.clear();
+		shields.clear();
+		thrusters.clear();
+		bounds.width= a.stats[base].bounds;
+		bounds.height=a.stats[base].bounds;
+		genGuns();
+		
 	}
 	
 }

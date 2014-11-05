@@ -6,7 +6,9 @@ import com.GGI.Venture.Venture;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Venture(), config);
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.width = 960;
+        cfg.height = 640;
+		new LwjglApplication(new Venture(), cfg);
 	}
 }
