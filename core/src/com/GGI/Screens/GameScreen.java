@@ -10,6 +10,7 @@ import com.GGI.GameOBJ.Thruster;
 import com.GGI.Map.Grid;
 import com.GGI.Venture.Venture;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,13 +19,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * @author Emmett Deen
  *
  */
-public class GameScreen implements Screen{
+public class GameScreen implements Screen,InputProcessor{
 
 	private SpriteBatch pic = new SpriteBatch();
 	private Venture g;
 	private Grid currentGrid;
 	private Player player;
 	private int w =Gdx.graphics.getWidth(), h =Gdx.graphics.getHeight();
+	
 	
 	public GameScreen(Venture g) {
 		this.g=g;
@@ -99,6 +101,16 @@ public class GameScreen implements Screen{
 			}
 		}
 		//end render Player
+		
+		//render joysticks
+		pic.draw(g.assets.jBase,(float)(g.assets.move.pos.x*w),(float)(g.assets.move.pos.y*h),(float)(g.assets.move.bounds.width*w),(float)(g.assets.move.bounds.height*w));
+		pic.draw(g.assets.jTop,(float)(g.assets.move.top.x*w),(float)(g.assets.move.top.y*h),(float)(g.assets.move.topBounds.width*w),(float)(g.assets.move.topBounds.height*w));
+		
+		
+		pic.draw(g.assets.jBase,(float)(g.assets.aim.pos.x*w),(float)(g.assets.aim.pos.y*h),(float)(g.assets.aim.bounds.width*w),(float)(g.assets.aim.bounds.height*w));
+		pic.draw(g.assets.jTop,(float)(g.assets.aim.top.x*w),(float)(g.assets.aim.top.y*h),(float)(g.assets.aim.topBounds.width*w),(float)(g.assets.aim.topBounds.height*w));
+
+		//end render joysticks
 		pic.end();
 		
 	}
@@ -111,7 +123,7 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		Gdx.input.setInputProcessor(this);
 		
 	}
 
@@ -137,6 +149,54 @@ public class GameScreen implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		screenY = h-screenY;
+		return true;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		screenY = h-screenY;
+		return true;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		screenY = h-screenY;
+		return true;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

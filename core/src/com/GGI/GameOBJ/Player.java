@@ -28,6 +28,8 @@ public class Player extends Ship{
 		guns.clear();
 		shields.clear();
 		thrusters.clear();
+		position.x=.5f;
+		position.y=.5f;
 		bounds.width= a.stats[base].bounds;
 		bounds.height=a.stats[base].bounds;
 		genGuns();

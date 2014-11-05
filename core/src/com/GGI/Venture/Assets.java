@@ -3,13 +3,13 @@
  */
 package com.GGI.Venture;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
 import com.GGI.GameOBJ.ShipStat;
 import com.GGI.Map.Map;
+import com.GGI.UI.Joystick;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,6 +34,8 @@ public class Assets {
 	public Texture concrete;
 	public Texture toolbarBG;
 	public Texture title;
+	public Texture jBase;
+	public Texture jTop;
 	
 	public TextureRegion scoutGun;
 	public TextureRegion snipeGun;
@@ -44,6 +46,9 @@ public class Assets {
 	public TextureRegion scoutThrust;
 	public TextureRegion snipeThrust;
 	public TextureRegion tankThrust;
+	
+	public Joystick move =new Joystick(new Vector2(.1f,.1f));
+	public Joystick aim =new Joystick(new Vector2(.8f,.1f));
 	
 	public ShipStat[] stats;
 	
@@ -93,13 +98,13 @@ public class Assets {
 		
 		stats[2] =new ShipStat(new Vector2[]{new Vector2(-.035f,.46f),new Vector2(.16f,.53f),new Vector2(.56f,.53f),new Vector2(.755f,.46f),new Vector2(.36f,.59f),
 											 new Vector2(.36f,.33f),new Vector2(-.035f,.2f),new Vector2(.1f,.06f),new Vector2(.36f,-.07f),new Vector2(.625f,.06f),
-											 new Vector2(.755f,.2f)},200,.28f,.045f);
+											 new Vector2(.755f,.2f)},200,.28f,.07f);
 	    
 		stats[3] =new ShipStat(new Vector2[]{new Vector2(.165f,.333f),new Vector2(.04f,.453f),new Vector2(.165f,.573f),new Vector2(.285f,.613f),new Vector2(.525f,.613f),
-	    									 new Vector2(.645f,.333f),new Vector2(.765f,.453f),new Vector2(.645f,.573f),new Vector2(.405f,.66f),new Vector2(.405f,.498f),
-	    									 new Vector2(.405f,.338f),new Vector2(-.035f,.46f),new Vector2(.16f,.53f),new Vector2(.56f,.53f),new Vector2(.755f,.46f),
-	    									 new Vector2(.36f,.59f),new Vector2(.36f,.33f),new Vector2(-.035f,.2f),new Vector2(.1f,.06f), new Vector2(.36f,.59f),
-	    									 new Vector2(.36f,.33f)},200,.17f,.045f);
+	    									 new Vector2(.645f,.573f),new Vector2(.765f,.453f),new Vector2(.645f,.333f),new Vector2(.405f,.66f),new Vector2(.405f,.498f),
+	    									 new Vector2(.405f,.338f),new Vector2(-.035f,.132f),new Vector2(.042f,.217f),new Vector2(.163f,.092f),new Vector2(.205f,.217f),
+	    									 new Vector2(.325f,.255f),new Vector2(.485f,.255f),new Vector2(.605f,.217f),new Vector2(.643f,.092f), new Vector2(.769f,.217f),
+	    									 new Vector2(.869f,.132f)},200,.17f,.09f);
 		
 		stats[9] =new ShipStat(new Vector2[]{new Vector2(.2f,.3f)},100,.4f,.09f);
 		//end base stats
@@ -123,6 +128,8 @@ public class Assets {
 		concrete = new Texture(Gdx.files.internal("UI/Concrete.png"));
 		toolbarBG = new Texture(Gdx.files.internal("UI/ToolbarBG.png"));
 		title = new Texture(Gdx.files.internal("UI/Title.png"));
+		jBase = new Texture(Gdx.files.internal("UI/JoystickBase.png"));
+		jTop = new Texture(Gdx.files.internal("UI/JoystickTop.png"));
 		//end UI
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");
