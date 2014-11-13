@@ -3,10 +3,10 @@
  */
 package com.GGI.Screens;
 
-import com.GGI.GameOBJ.Gun;
+import java.util.ArrayList;
+
 import com.GGI.GameOBJ.Player;
-import com.GGI.GameOBJ.Shield;
-import com.GGI.GameOBJ.Thruster;
+import com.GGI.GameOBJ.Star;
 import com.GGI.UI.Button;
 import com.GGI.Venture.Venture;
 import com.badlogic.gdx.Gdx;
@@ -29,11 +29,18 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	private Button help = new Button("UI/HelpUp.png","UI/HelpDown.png");
 	private BitmapFont fnt = new BitmapFont();
 	private Player player;
-	
+	private ArrayList<Star> stars = new ArrayList<Star>();
 	public MainMenuScreen(Venture g) {
 		this.g=g;
 		fnt.scale(w/1000);
 		player = g.assets.player;
+		
+		for(int i = 0; i < 100; i++){
+			stars.add(new Star());
+			for(int j =0; j<10000; j++){
+			stars.get(i).move(1);
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -46,9 +53,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
 		pic.begin();
 		//bg
-		pic.draw(g.assets.concrete,0,0,w,w);
+		//pic.draw(g.assets.concrete,0,0,w,w);
+		for(int i = 0; i < stars.size();i++){
+			stars.get(i).move(delta);
+			pic.draw(g.assets.star,stars.get(i).position.x*w,stars.get(i).position.y*h,5,5);
+		}
+		
 		pic.draw(g.assets.black, (int)(w-(.4*w)),0,(int)(.35*w),h);
-		pic.draw(player.getText(),player.position.x*w,player.position.y*h,player.bounds.width*w,player.bounds.height*w);
+		pic.draw(g.assets.ranks.get(g.assets.lv/5),.1f*w,(.5f*h)-(.2f*w),.4f*w,.4f*w);
 		
 		/*
 		for(int i = 0; i <player.guns.size(); i++){
@@ -71,25 +83,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		}
 		*/
 		
-		for(int i = 0; i < player.guns.size();i++){
-			Gun temp = player.guns.get(i);
-			if(temp.texture!=null){
-				pic.draw(temp.texture,(float)(temp.position.x*w),(float)(temp.position.y*h),(float)((temp.bounds.width/2)*w),(float)((temp.bounds.height/2)*w),(float)(temp.bounds.width*w),(float)(temp.bounds.height*w),1f,1f,player.rotation);
-			}
-		}
 		
-		for(int i = player.guns.size(); i <player.guns.size()+player.shields.size(); i++){
-			Shield temp = player.shields.get(i-player.guns.size());
-			if(temp.texture!=null){
-				pic.draw(temp.texture,(float)(temp.position.x*w),(float)(temp.position.y*h),(float)((temp.bounds.width/2)*w),(float)((temp.bounds.height/2)*w),(float)(temp.bounds.width*w),(float)(temp.bounds.height*w),1f,1f,player.rotation);
-			}
-		}
-		for(int i = (player.guns.size()+player.shields.size()); i <(player.guns.size()+player.shields.size())+player.thrusters.size(); i++){
-			Thruster temp = player.thrusters.get(i-(player.guns.size()+player.shields.size()));
-			if(temp.texture!=null){
-				pic.draw(temp.texture,(float)(temp.position.x*w),(float)(temp.position.y*h),(float)((temp.bounds.width/2)*w),(float)((temp.bounds.height/2)*w),(float)(temp.bounds.width*w),(float)(temp.bounds.height*w),1f,1f,player.rotation);
-			}
-		}
 		//end bg
 		
 		//buttons and title

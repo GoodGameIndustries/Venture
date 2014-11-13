@@ -5,6 +5,7 @@ package com.GGI.Venture;
 
 import java.util.ArrayList;
 
+import com.GGI.GameOBJ.Bullet;
 import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
 import com.GGI.GameOBJ.ShipStat;
@@ -26,8 +27,9 @@ public class Assets {
 	public Player player;
 	public Enemy[] enemies;
 	public Map map;
-	public ArrayList<Texture> bases = new ArrayList<Texture>();
-	public TextureRegion[][] regions;
+	public ArrayList<TextureRegion> bases = new ArrayList<TextureRegion>();
+	public ArrayList<Texture> ranks = new ArrayList<Texture>();
+	public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	public Venture g;
 	
 	public Texture black;
@@ -36,19 +38,15 @@ public class Assets {
 	public Texture title;
 	public Texture jBase;
 	public Texture jTop;
+	public Texture grid;
+	public Texture star;
+	public Texture blueLaser;
+	public Texture redLaser;
 	
-	public TextureRegion scoutGun;
-	public TextureRegion snipeGun;
-	public TextureRegion tankGun;
-	public TextureRegion scoutShield;
-	public TextureRegion snipeShield;
-	public TextureRegion tankShield;
-	public TextureRegion scoutThrust;
-	public TextureRegion snipeThrust;
-	public TextureRegion tankThrust;
 	
-	public Joystick move =new Joystick(new Vector2(.1f,.1f));
-	public Joystick aim =new Joystick(new Vector2(.8f,.1f));
+	
+	public Joystick move =new Joystick(new Vector2(.1f,.05f));
+	public Joystick aim =new Joystick(new Vector2(.8f,.05f));
 	
 	public ShipStat[] stats;
 	
@@ -78,50 +76,21 @@ public class Assets {
 
 	private void load() {
 		//base pictures
-		bases.add(new Texture(Gdx.files.internal("Bases/Starter.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Scout1.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Scout2.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Scout3.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Snipe1.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Snipe2.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Snipe3.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Tank1.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Tank2.png")));
-		bases.add(new Texture(Gdx.files.internal("Bases/Tank3.png")));
+		
+		for(int i =1; i <= 15; i++){
+			bases.add(new TextureRegion(new Texture(Gdx.files.internal("Ships/Ship" + i +".png"))));
+		}
+		blueLaser=new Texture(Gdx.files.internal("Ships/BlueLaser.png"));
+		redLaser=new Texture(Gdx.files.internal("Ships/RedLaser.png"));
 		//end base pictures
+		//rank pictures
+		for(int i = 0; i < 15;i++){
+			ranks.add(new Texture(Gdx.files.internal("Ranks/Rank" + i +".png")));
+		}
+		//end rank pictures
 		
-		//base stats
-		stats = new ShipStat[bases.size()];
-		stats[0] =new ShipStat(new Vector2[]{new Vector2(.03f,.17f),new Vector2(.57f,.17f),new Vector2(.3f,.435f),new Vector2(.3f,-.1f)},100,.4f,.04f);
+		star = new Texture(Gdx.files.internal("Ranks/Star.png"));
 		
-		stats[1] =new ShipStat(new Vector2[]{new Vector2(.04f,.38f),new Vector2(.64f,.38f),new Vector2(.34f,.53f),new Vector2(.34f,.38f),new Vector2(.04f,-.07f),new Vector2(.34f,-.07f),new Vector2(.64f,-.07f)},200,.32f,.045f);
-		
-		stats[2] =new ShipStat(new Vector2[]{new Vector2(-.035f,.46f),new Vector2(.16f,.53f),new Vector2(.56f,.53f),new Vector2(.755f,.46f),new Vector2(.36f,.59f),
-											 new Vector2(.36f,.33f),new Vector2(-.035f,.2f),new Vector2(.1f,.06f),new Vector2(.36f,-.07f),new Vector2(.625f,.06f),
-											 new Vector2(.755f,.2f)},200,.28f,.07f);
-	    
-		stats[3] =new ShipStat(new Vector2[]{new Vector2(.165f,.333f),new Vector2(.04f,.453f),new Vector2(.165f,.573f),new Vector2(.285f,.613f),new Vector2(.525f,.613f),
-	    									 new Vector2(.645f,.573f),new Vector2(.765f,.453f),new Vector2(.645f,.333f),new Vector2(.405f,.66f),new Vector2(.405f,.498f),
-	    									 new Vector2(.405f,.338f),new Vector2(-.035f,.132f),new Vector2(.042f,.217f),new Vector2(.163f,.092f),new Vector2(.205f,.217f),
-	    									 new Vector2(.325f,.255f),new Vector2(.485f,.255f),new Vector2(.605f,.217f),new Vector2(.643f,.092f), new Vector2(.769f,.217f),
-	    									 new Vector2(.869f,.132f)},200,.17f,.09f);
-		
-		stats[9] =new ShipStat(new Vector2[]{new Vector2(.2f,.3f)},100,.4f,.09f);
-		//end base stats
-		
-		//attatchments
-		scoutGun = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/SMG.png")));
-		snipeGun = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/SNIPE.png")));
-		tankGun = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/TANK.png")));
-		
-		scoutShield = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/ScoutShield.png")));
-		snipeShield = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/SnipeShield.png")));
-		tankShield = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/TankShield.png")));
-		
-		scoutThrust = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/STEER.png")));
-		snipeThrust = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/SPEED.png")));
-		tankThrust = new TextureRegion(new Texture(Gdx.files.internal("Attatchments/ACCEL.png")));
-		//end attatchments
 		
 		//UI
 		black = new Texture(Gdx.files.internal("UI/black.png"));
@@ -130,6 +99,7 @@ public class Assets {
 		title = new Texture(Gdx.files.internal("UI/Title.png"));
 		jBase = new Texture(Gdx.files.internal("UI/JoystickBase.png"));
 		jTop = new Texture(Gdx.files.internal("UI/JoystickTop.png"));
+		grid = new Texture(Gdx.files.internal("UI/GridOutline.png"));
 		//end UI
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");
@@ -148,10 +118,10 @@ public class Assets {
 		FileHandle shipFile = Gdx.files.local("Ship.txt");
 		String shipS = shipFile.readString();
 		//TESTING
-		shipS = "3,8,10,10,20,30,30,20,10,10,3,10,20,30,10,10,20,30,20,10,10,20,30,20,10";
+		shipS = ""+(60/5);
 		//END TESTING
 		player = new Player(shipS,this);
-		player.genGuns();
+		
 		
 		FileHandle statsFile = Gdx.files.local("Stats.txt");
 		String[] stats = statsFile.readString().split(",");
@@ -160,7 +130,7 @@ public class Assets {
 		neededXP=Integer.parseInt(stats[2]);
 		money=Integer.parseInt(stats[3]);
 		
-		
+		lv=60;
 		
 		
 	}
