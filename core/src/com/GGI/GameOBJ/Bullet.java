@@ -25,6 +25,7 @@ public class Bullet {
 	}
 	
 	public void move(float delta){
+		
 		position.x=position.x+(velocity.x*delta*50);
 		position.y=position.y+(velocity.y*delta*50);
 	}

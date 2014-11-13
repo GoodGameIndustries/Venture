@@ -28,4 +28,42 @@ public class Map {
 	public Grid getCurrent(){
 		return map[x][y];
 	}
+	
+	public void move(int x,int y){
+		if(x>map.length||x<0){
+			addX(x);
+		}
+		if(y>map[0].length||y<0){
+			addY(y);
+		}
+		this.x=x;
+		this.y=y;
+		
+	}
+
+	private void addY(int y2) {
+	Grid[][] newMap = null;
+		if(y2<0){
+			newMap = new Grid[map.length][map[0].length+Math.abs(y2)];
+			for(int i = 0; i<newMap.length;i++){
+				for(int j = y2; j<newMap.length;j++){
+					newMap[i][j]=map[i][j-Math.abs(y2)];
+				}
+			}
+		}
+		
+		
+		//fill nulls
+		for(int i =0; i<newMap.length;i++){
+			for(int j=0;j<newMap[0].length;j++){
+				if(newMap[i][j]==null){newMap[i][j]=new Grid(this,0);}
+			}
+		}
+		//end fill nulls
+	}
+
+	private void addX(int x2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

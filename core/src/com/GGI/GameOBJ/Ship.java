@@ -25,7 +25,7 @@ public class Ship {
 	public Vector2 position = new Vector2();
 	public Vector2 velocity = new Vector2();
 	public Rectangle bounds = new Rectangle();
-	private int w = Gdx.graphics.getWidth(),h = Gdx.graphics.getHeight();
+	private float w = Gdx.graphics.getWidth(),h = Gdx.graphics.getHeight();
 	protected float maxVelocity;
 	private float maxSteer;
 	public float rotation = 0f;
@@ -52,8 +52,8 @@ public class Ship {
 		
 		baseText = a.bases.get(base-1);
 		
-		bounds.width=(float)(baseText.getRegionWidth())/(w);
-		bounds.height=(float)(baseText.getRegionHeight())/(w);
+		bounds.width=(float)(baseText.getRegionWidth())*((w/1000)/w);
+		bounds.height=(float)(baseText.getRegionHeight())*((w/1000)/w);
 		
 	}
 	
