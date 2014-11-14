@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.GGI.GameOBJ.Bullet;
+import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
 import com.GGI.Map.Grid;
 import com.GGI.Venture.Venture;
@@ -32,6 +33,7 @@ public class GameScreen implements Screen,InputProcessor{
 	private boolean prea;
 	private int moveP;
 	private int aimP;
+	public int x,y;
 	
 	class TouchInfo {
         public float touchX = 0;
@@ -57,27 +59,23 @@ public class GameScreen implements Screen,InputProcessor{
 		
 		player.move(delta);
 		
+	
+		
 		if(player.reload>0){
 			player.reload--;
-			System.out.println(player.reload);
+			//System.out.println(player.reload);
 		}
 		
 		currentGrid = g.assets.map.getCurrent();
-		if(currentGrid.state==2){
-			//render MotherShip
-		}
-		else if(currentGrid.state==1){
-			//do nothing
-		}
-		else if(currentGrid.state==0){
-			//gen enemies
-			//render enemies
-			
-			if(currentGrid.enemies.size()==0){
-				currentGrid.state=1;
-				g.assets.save();
-			}
-		}
+		x=g.assets.map.x;
+		y=g.assets.map.y;
+		
+		if((player.position.x*w)<0){g.assets.map.move(x-1, y);player.position.x=currentGrid.bounds.width-.1f;}
+		else if((player.position.x+player.bounds.width)*w>currentGrid.bounds.width*w){g.assets.map.move(x+1, y);player.position.x=.1f;}
+		else if(player.position.y*h<0){g.assets.map.move(x, y-1);player.position.y=currentGrid.bounds.height-.1f;}
+		else if((player.position.y*h)+(player.bounds.height*w)>currentGrid.bounds.height*h){g.assets.map.move(x, y+1);player.position.y=.1f;}
+		pic.begin();
+		
 		
 		currentGrid.position.x = -(player.position.x-.5f);
 		currentGrid.position.y = -(player.position.y-.5f);
@@ -90,7 +88,7 @@ public class GameScreen implements Screen,InputProcessor{
 			g.assets.aim.move(touches.get(aimP).touchX, touches.get(aimP).touchY);
 		}
 		
-		pic.begin();
+		
 		
 		//render bullets
 		
@@ -98,10 +96,38 @@ public class GameScreen implements Screen,InputProcessor{
 					//Bullet temp = g.assets.bullets.get(i);
 				
 					if(temp.team==0){pic.draw(new TextureRegion(g.assets.blueLaser), (temp.position.x+currentGrid.position.x)*w, (temp.position.y+currentGrid.position.y)*h, (temp.bounds.width/2)*w, (temp.bounds.height/2)*w, temp.bounds.width*w, temp.bounds.height*w, 1, 1, temp.rotation);}
+					else if(temp.team==1){pic.draw(new TextureRegion(g.assets.redLaser), (temp.position.x+currentGrid.position.x)*w, (temp.position.y+currentGrid.position.y)*h, (temp.bounds.width/2)*w, (temp.bounds.height/2)*w, temp.bounds.width*w, temp.bounds.height*w, 1, 1, temp.rotation);}
 					temp.move(delta);
 				}
 				
 				//end render bullets
+				
+				if(currentGrid.state==2){
+					//render MotherShip
+				}
+				else if(currentGrid.state==1){
+					//do nothing
+				}
+				else if(currentGrid.state==0){
+					//gen enemies
+					//render enemies
+					
+					for(Enemy e:currentGrid.enemies){
+						pic.draw(new TextureRegion(e.getText()),(float)((e.position.x+currentGrid.position.x)*w),(float)((e.position.y+currentGrid.position.y)*h),(float)((e.bounds.width/2)*w),(float)((e.bounds.height/2)*w),(float)(e.bounds.width*w),(float)(e.bounds.height*w),1f,1f,e.rotation);
+						e.move(delta);
+						e.reload--;
+						//System.out.println("Enemy Rendered");
+						if((e.position.x*w)<0){e.position.x=currentGrid.bounds.width-.1f;}
+						else if((e.position.x+e.bounds.width)*w>currentGrid.bounds.width*w){e.position.x=.1f;}
+						else if(e.position.y*h<0){e.position.y=currentGrid.bounds.height-.1f;}
+						else if((e.position.y*h)+(e.bounds.height*w)>currentGrid.bounds.height*h){e.position.y=.1f;}
+					}
+					
+					if(currentGrid.enemies.size()==0){
+						currentGrid.state=1;
+						g.assets.save();
+					}
+				}
 		
 		//render Player
 		pic.draw(g.assets.grid,(float)(currentGrid.position.x*w),(float)(currentGrid.position.y*h),(float)(currentGrid.bounds.width*w),(float)(currentGrid.bounds.height*h));

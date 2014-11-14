@@ -26,7 +26,7 @@ public class Player extends Ship{
 		
 		position.x=.3f-(bounds.width/2);
 		position.y=.5f-(bounds.height/2);
-		System.out.println(position.x+","+position.y);
+		//System.out.println(position.x+","+position.y);
 	}
 
 	public void play(){

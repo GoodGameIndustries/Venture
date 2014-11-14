@@ -21,7 +21,7 @@ public class Ship {
 
 	public int base;
 	
-	private TextureRegion baseText;
+	protected TextureRegion baseText;
 	public Vector2 position = new Vector2();
 	public Vector2 velocity = new Vector2();
 	public Rectangle bounds = new Rectangle();

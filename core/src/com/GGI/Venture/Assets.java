@@ -28,6 +28,7 @@ public class Assets {
 	public Enemy[] enemies;
 	public Map map;
 	public ArrayList<TextureRegion> bases = new ArrayList<TextureRegion>();
+	public ArrayList<TextureRegion> enemiesT = new ArrayList<TextureRegion>();
 	public ArrayList<Texture> ranks = new ArrayList<Texture>();
 	public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	public Venture g;
@@ -80,6 +81,9 @@ public class Assets {
 		for(int i =1; i <= 15; i++){
 			bases.add(new TextureRegion(new Texture(Gdx.files.internal("Ships/Ship" + i +".png"))));
 		}
+		for(int i = 1; i <=15; i++){
+			enemiesT.add(new TextureRegion(new Texture(Gdx.files.internal("Enemies/Enemy" + i +".png"))));
+		}
 		blueLaser=new Texture(Gdx.files.internal("Ships/BlueLaser.png"));
 		redLaser=new Texture(Gdx.files.internal("Ships/RedLaser.png"));
 		//end base pictures
@@ -104,7 +108,7 @@ public class Assets {
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");
 		String mapS = mapFile.readString();
-		map = new Map(mapS);
+		map = new Map(mapS,this);
 		
 		/*
 		FileHandle enemyFile = Gdx.files.local("Enemies.txt");
@@ -118,7 +122,7 @@ public class Assets {
 		FileHandle shipFile = Gdx.files.local("Ship.txt");
 		String shipS = shipFile.readString();
 		//TESTING
-		shipS = ""+(60/5);
+		shipS = ""+(75/5);
 		//END TESTING
 		player = new Player(shipS,this);
 		
@@ -130,7 +134,7 @@ public class Assets {
 		neededXP=Integer.parseInt(stats[2]);
 		money=Integer.parseInt(stats[3]);
 		
-		lv=60;
+		lv=74;
 		
 		
 	}
