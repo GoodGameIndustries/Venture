@@ -23,7 +23,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Assets {
 
-	public int lv,currentXP,neededXP,money;
+	public float currentXP,neededXP;
+	public int lv,money;
 	public Player player;
 	public Enemy[] enemies;
 	public Map map;
@@ -43,7 +44,13 @@ public class Assets {
 	public Texture star;
 	public Texture blueLaser;
 	public Texture redLaser;
-	
+	public Texture health;
+	public Texture reload;
+	public Texture grey;
+	public Texture gold;
+	public Texture blue;
+	public Texture motherShip;
+	public Texture wrench;
 	
 	
 	public Joystick move =new Joystick(new Vector2(.1f,.05f));
@@ -104,6 +111,13 @@ public class Assets {
 		jBase = new Texture(Gdx.files.internal("UI/JoystickBase.png"));
 		jTop = new Texture(Gdx.files.internal("UI/JoystickTop.png"));
 		grid = new Texture(Gdx.files.internal("UI/GridOutline.png"));
+		health = new Texture(Gdx.files.internal("UI/health.png"));
+		reload = new Texture(Gdx.files.internal("UI/reload.png"));
+		gold = new Texture(Gdx.files.internal("UI/Gold.png"));
+		grey = new Texture(Gdx.files.internal("UI/Grey.png"));
+		blue = new Texture(Gdx.files.internal("UI/Blue.png"));
+		motherShip = new Texture(Gdx.files.internal("UI/Planet.png"));
+		wrench = new Texture(Gdx.files.internal("UI/Wrench.png"));
 		//end UI
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");

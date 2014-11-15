@@ -28,6 +28,8 @@ public class Ship {
 	private float w = Gdx.graphics.getWidth(),h = Gdx.graphics.getHeight();
 	protected float maxVelocity;
 	private float maxSteer;
+	public float maxHealth;
+	public float currentHealth;
 	public float rotation = 0f;
 	public ShipStat stats;
 	private String[] breakDown;
@@ -41,6 +43,8 @@ public class Ship {
 		//breakDown = s.split(",");
 		base = Integer.parseInt(s);
 	
+		maxHealth=base*5;
+		currentHealth=maxHealth;
 		//System.out.println(base);
 		//base = 9;
 		

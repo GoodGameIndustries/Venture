@@ -60,7 +60,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		}
 		
 		pic.draw(g.assets.black, (int)(w-(.4*w)),0,(int)(.35*w),h);
-		pic.draw(g.assets.ranks.get(g.assets.lv/5),.1f*w,(.5f*h)-(.2f*w),.4f*w,.4f*w);
+		pic.draw(g.assets.ranks.get((int) (g.assets.lv/5)),.1f*w,(.5f*h)-(.2f*w),.4f*w,.4f*w);
 		
 		/*
 		for(int i = 0; i <player.guns.size(); i++){

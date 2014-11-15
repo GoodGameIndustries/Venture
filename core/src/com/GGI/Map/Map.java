@@ -43,14 +43,15 @@ public class Map {
 		//	System.out.println("addX");
 			
 			
-			
+			if(this.y!=y){
+				this.y=y;
+				addY(y);
+				}
 			if(this.x!=x){
 			this.x=x;
 			addX(x);
 			}
-			if(this.y!=y){
-			this.y=y;
-			addY(y);}
+			
 			
 		}
 		

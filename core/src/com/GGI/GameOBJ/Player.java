@@ -16,13 +16,14 @@ public class Player extends Ship{
 	public double w =Gdx.graphics.getWidth(), h =Gdx.graphics.getHeight();
 	public float cx,cy;
 	public float pX,pY;
-	public float reload = 50;
-	
+	public float reload = 100;
+	public float maxReload;
 	public Player(String s,Assets a){
 		super(s,a);
 		this.a=a;
 		//stats = a.stats[this.base];
 		reload/=base;
+		maxReload=reload;
 		
 		position.x=.3f-(bounds.width/2);
 		position.y=.5f-(bounds.height/2);
@@ -66,7 +67,7 @@ public class Player extends Ship{
 
 	private void fire() {
 		if(reload<=0){
-			reload=100/base;
+			reload=maxReload;
 		a.bullets.add(new Bullet(0,position.x+(bounds.width/2),position.y+(bounds.height/2),a.aim.diff.x,a.aim.diff.y,rotation));
 		}
 	}

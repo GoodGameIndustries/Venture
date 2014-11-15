@@ -10,11 +10,14 @@ import com.GGI.GameOBJ.Bullet;
 import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
 import com.GGI.Map.Grid;
+import com.GGI.UI.Button;
+import com.GGI.UI.Toolbar;
 import com.GGI.Venture.Venture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -34,11 +37,15 @@ public class GameScreen implements Screen,InputProcessor{
 	private int moveP;
 	private int aimP;
 	public int x,y;
+	private Toolbar toolbar;
+	private BitmapFont fnt = new BitmapFont();
+	private Button pause;
 	
 	class TouchInfo {
         public float touchX = 0;
         public float touchY = 0;
         public boolean touched = false;
+        
     }
     
     private Map<Integer,TouchInfo> touches = new HashMap<Integer,TouchInfo>();
@@ -50,6 +57,8 @@ public class GameScreen implements Screen,InputProcessor{
 		for(int i = 0; i < 5; i++){
             touches.put(i, new TouchInfo());
         }
+		toolbar=new Toolbar(g.assets,this);
+		pause = new Button("UI/PauseUp.png","UI/PauseDown.png");
 	}
 
 	@Override
@@ -65,7 +74,7 @@ public class GameScreen implements Screen,InputProcessor{
 			player.reload--;
 			//System.out.println(player.reload);
 		}
-		
+		if(player.reload<0){player.reload=0;}
 		currentGrid = g.assets.map.getCurrent();
 		x=g.assets.map.x;
 		y=g.assets.map.y;
@@ -103,7 +112,8 @@ public class GameScreen implements Screen,InputProcessor{
 				//end render bullets
 				
 				if(currentGrid.state==2){
-					//render MotherShip
+					pic.draw(g.assets.motherShip,(1.5f+currentGrid.position.x)*w,((2*h)-(w/2))+(currentGrid.position.y*h),1*w,1*w);
+					pic.draw(g.assets.wrench, (1.95f+currentGrid.position.x)*w,(float) (((2*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h)),.1f*w,.1f*w);
 				}
 				else if(currentGrid.state==1){
 					//do nothing
@@ -136,7 +146,18 @@ public class GameScreen implements Screen,InputProcessor{
 		
 		//end render Player
 
+		//render toolbars
 		
+		pic.draw(g.assets.black, 0*w, .9f*h,w,.1f*h);
+		String stats =  "Lv: "+g.assets.lv+" XP: "+g.assets.currentXP + "/" + g.assets.neededXP+"("+(int)((g.assets.currentXP/g.assets.neededXP)*100)+"%)" +" $: " + g.assets.money;
+		fnt.draw(pic,stats, (float)(.05*w), (float)(.96*h));
+		pic.draw(pause.getState(),.78f*w,.92f*h,.2f*w,.06f*h);
+		
+		pic.draw(g.assets.black, 0f*w, 0f*h, w,.25f*h);
+		pic.draw(g.assets.health, .25f*w,.15f*h,.5f*w*(player.currentHealth/player.maxHealth),.05f*h);
+		pic.draw(g.assets.reload,.25f*w,.05f*h,.5f*w*(1-(player.reload/player.maxReload)),.05f*h); 
+		
+		//end render toolbars
 		
 		//render joysticks
 		pic.draw(g.assets.jBase,(float)(g.assets.move.pos.x*w),(float)(g.assets.move.pos.y*h),(float)(g.assets.move.bounds.width*w),(float)(g.assets.move.bounds.height*w));
@@ -209,6 +230,12 @@ public class GameScreen implements Screen,InputProcessor{
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		screenY = h-screenY;
 		
+		if(screenX>.78f*w&&screenX<(.78f+.2f)*w){
+			if(screenY>.92f*h&&screenY<(.92f+.06f)*h){
+				pause.press();
+			}
+		}
+		
 		if(pointer < 5){
             touches.get(pointer).touchX = screenX;
             touches.get(pointer).touchY = screenY;
@@ -233,6 +260,20 @@ public class GameScreen implements Screen,InputProcessor{
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		screenY = h-screenY;
+		pause.release();
+		
+		if(screenX>.78f*w&&screenX<(.78f+.2f)*w){
+			if(screenY>.92f*h&&screenY<(.92f+.06f)*h){
+				g.setScreen(new PauseScreen(g,this));
+			}
+		}
+		
+		if(screenX>(1.95f+currentGrid.position.x)*w&&screenX<((1.95f+currentGrid.position.x)*w)+(.1*w)){
+			if(screenY>(float) (((2*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h))&&screenY<(float) (((2*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h))+(.1*w)){
+				g.setScreen(new UpgradeScreen(g,this));
+			}
+		}
+		
 		if(pointer < 5){
             touches.get(pointer).touchX = 0;
             touches.get(pointer).touchY = 0;
