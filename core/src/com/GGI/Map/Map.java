@@ -3,6 +3,8 @@
  */
 package com.GGI.Map;
 
+import java.util.ArrayList;
+
 import com.GGI.Venture.Assets;
 
 /**
@@ -14,9 +16,11 @@ public class Map {
 	public Grid[][] map;
 	public int x,y;
 	private int col=0;
-	private int hX,hY;
-	private Grid home;
+	public int hX;
+	public int hY;
+	public Grid home;
 	public Assets g;
+	private ArrayList<Grid> grids = new ArrayList<Grid>();
 	
 	public Map(String mapS,Assets g) {
 		this.g=g;
@@ -25,10 +29,21 @@ public class Map {
 		x=Integer.parseInt(breakDown[2]);
 		y=Integer.parseInt(breakDown[3]);
 		
+		
 		for(int i = 4; i < breakDown.length;i++){
-			if((i-4)>Integer.parseInt(breakDown[0])){col++;}
-			map[i-4][col]=new Grid(this,Integer.parseInt(breakDown[i]));
-			if(Integer.parseInt(breakDown[i])==2){hX=i-4;hY=col;}
+			grids.add(new Grid(this,Integer.parseInt(breakDown[i])));
+			/*if((i-4)>Integer.parseInt(breakDown[0])-1){col++;}
+			map[i-4-((map.length)*col)][col]=new Grid(this,Integer.parseInt(breakDown[i]));
+			if(Integer.parseInt(breakDown[i])==2){hX=i-4;hY=col;}*/
+		}
+		
+		for(int i = 0; i <map.length;i++){
+			for(int j = 0; j < map[0].length; j++){
+				map[i][j]=grids.get(0);
+				if(grids.get(0).state==2){home=grids.get(0);hX=i;hY=j;}
+				
+				grids.remove(0);
+			}
 		}
 	}
 	
@@ -39,6 +54,7 @@ public class Map {
 	}
 	
 	public void move(int x,int y){
+		
 		if(x>map.length-1||x<0||y>map[0].length-1||y<0){
 		//	System.out.println("addX");
 			
@@ -61,6 +77,7 @@ public class Map {
 			this.y=y;
 		}
 		g.bullets.clear();
+		g.save();
 	}
 
 	private void addY(int y2) {
@@ -146,7 +163,7 @@ public class Map {
 		return result;
 	}
 
-	private Grid findHome() {
+	public Grid findHome() {
 		for(int i = 0; i < map.length; i++){
 			for(int j = 0; j < map[0].length;j++){
 				if(map[i][j]!=null&&map[i][j].state==2){
@@ -178,5 +195,19 @@ public class Map {
 			}
 		}
 		return -1;
+	}
+	
+	public String toString(){
+		String result = "";
+		result+=map.length+",";
+		result+=map[0].length+",";
+		result+=x+",";
+		result+=y;
+		for(int i = 0; i < map.length;i++){
+			for(int j = 0; j < map[0].length;j++){
+				result+=","+map[i][j].state;
+			}
+		}
+		return result;
 	}
 }

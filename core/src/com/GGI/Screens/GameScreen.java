@@ -68,21 +68,31 @@ public class GameScreen implements Screen,InputProcessor{
 		
 		player.move(delta);
 		
-	
+	if(player.currentHealth<=0){
+		g.assets.money-=.05f*g.assets.money;
+		currentGrid=g.assets.map.home;
+		g.assets.map.x=g.assets.map.hX;
+		g.assets.map.y=g.assets.map.hY;
+		player.currentHealth=player.maxHealth;
+		player.play();
+		g.assets.save();
+	}
 		
+		
+	
 		if(player.reload>0){
 			player.reload--;
-			//System.out.println(player.reload);
+			
 		}
 		if(player.reload<0){player.reload=0;}
 		currentGrid = g.assets.map.getCurrent();
 		x=g.assets.map.x;
 		y=g.assets.map.y;
 		
-		if((player.position.x*w)<0){g.assets.map.move(x-1, y);player.position.x=currentGrid.bounds.width-.1f;}
-		else if((player.position.x+player.bounds.width)*w>currentGrid.bounds.width*w){g.assets.map.move(x+1, y);player.position.x=.1f;}
-		else if(player.position.y*h<0){g.assets.map.move(x, y-1);player.position.y=currentGrid.bounds.height-.1f;}
-		else if((player.position.y*h)+(player.bounds.height*w)>currentGrid.bounds.height*h){g.assets.map.move(x, y+1);player.position.y=.1f;}
+		if((player.position.x*w)<0){g.assets.map.move(x-1, y);player.position.x=currentGrid.bounds.width-.2f;}
+		else if((player.position.x+player.bounds.width)*w>currentGrid.bounds.width*w){g.assets.map.move(x+1, y);player.position.x=.2f;}
+		else if(player.position.y*h<0){g.assets.map.move(x, y-1);player.position.y=currentGrid.bounds.height-.2f;}
+		else if((player.position.y*h)+(player.bounds.height*w)>currentGrid.bounds.height*h){g.assets.map.move(x, y+1);player.position.y=.2f;}
 		pic.begin();
 		
 		
@@ -113,7 +123,7 @@ public class GameScreen implements Screen,InputProcessor{
 				
 				if(currentGrid.state==2){
 					pic.draw(g.assets.motherShip,(1.5f+currentGrid.position.x)*w,((2*h)-(w/2))+(currentGrid.position.y*h),1*w,1*w);
-					pic.draw(g.assets.wrench, (1.95f+currentGrid.position.x)*w,(float) (((2*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h)),.1f*w,.1f*w);
+					pic.draw(g.assets.wrench, (1.95f+currentGrid.position.x)*w,(float) (((2.3*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h)),.1f*w,.1f*w);
 				}
 				else if(currentGrid.state==1){
 					//do nothing
@@ -122,16 +132,46 @@ public class GameScreen implements Screen,InputProcessor{
 					//gen enemies
 					//render enemies
 					
-					for(Enemy e:currentGrid.enemies){
+					for(int i = 0; i < currentGrid.enemies.size();i++){
+						Enemy e = currentGrid.enemies.get(i);
 						pic.draw(new TextureRegion(e.getText()),(float)((e.position.x+currentGrid.position.x)*w),(float)((e.position.y+currentGrid.position.y)*h),(float)((e.bounds.width/2)*w),(float)((e.bounds.height/2)*w),(float)(e.bounds.width*w),(float)(e.bounds.height*w),1f,1f,e.rotation);
 						e.move(delta);
 						e.reload--;
+						if(e.currentHealth<=0){
+							g.assets.currentXP+=(int)((Math.random()*e.base)*2)+1;
+							g.assets.money+=(int)((Math.random()*e.base)*2)+1;
+							if(g.assets.currentXP>=g.assets.neededXP){g.assets.lv++;g.assets.currentXP-=g.assets.neededXP;
+							g.assets.neededXP+=(int)(.2*g.assets.neededXP);g.assets.save();
+							}
+							currentGrid.enemies.remove(e);}
 						//System.out.println("Enemy Rendered");
 						if((e.position.x*w)<0){e.position.x=currentGrid.bounds.width-.1f;}
 						else if((e.position.x+e.bounds.width)*w>currentGrid.bounds.width*w){e.position.x=.1f;}
 						else if(e.position.y*h<0){e.position.y=currentGrid.bounds.height-.1f;}
 						else if((e.position.y*h)+(e.bounds.height*w)>currentGrid.bounds.height*h){e.position.y=.1f;}
 					}
+					
+					//bullet hit detection
+					for(int i = 0; i < g.assets.bullets.size();i++){
+						Bullet bullet = g.assets.bullets.get(i);
+						if(bullet.team==0){
+							for(int j = 0; j <currentGrid.enemies.size();j++){
+								Enemy e = currentGrid.enemies.get(j);
+								float bX=bullet.position.x,bXW=bullet.position.x+bullet.bounds.width,bY=bullet.position.y,bYH=bullet.position.y+bullet.bounds.height,eX=e.position.x,eXW=e.position.x+e.bounds.width,eY=e.position.y,eYH=e.position.y+e.bounds.height;
+								
+								if((bX>eX&&bX<eXW)&&(bY>eY&&bY<eYH)){e.currentHealth--;g.assets.bullets.remove(bullet);}
+								if((bXW>eX&&bXW<eXW)&&(bYH>eY&&bYH<eYH)){e.currentHealth--;g.assets.bullets.remove(bullet);}
+								
+							}
+						}
+						else{
+							float bX=bullet.position.x,bXW=bullet.position.x+bullet.bounds.width,bY=bullet.position.y,bYH=bullet.position.y+bullet.bounds.height,eX=player.position.x,eXW=player.position.x+player.bounds.width,eY=player.position.y,eYH=player.position.y+player.bounds.height;
+							
+							if((bX>eX&&bX<eXW)&&(bY>eY&&bY<eYH)){player.currentHealth--;g.assets.bullets.remove(bullet);}
+							if((bXW>eX&&bXW<eXW)&&(bYH>eY&&bYH<eYH)){player.currentHealth--;g.assets.bullets.remove(bullet);}
+						}
+					}
+					//end bullet hit detection
 					
 					if(currentGrid.enemies.size()==0){
 						currentGrid.state=1;
@@ -269,7 +309,7 @@ public class GameScreen implements Screen,InputProcessor{
 		}
 		
 		if(screenX>(1.95f+currentGrid.position.x)*w&&screenX<((1.95f+currentGrid.position.x)*w)+(.1*w)){
-			if(screenY>(float) (((2*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h))&&screenY<(float) (((2*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h))+(.1*w)){
+			if(screenY>(float) (((2.3*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h))&&screenY<(float) (((2.3*h)-((.1f*w)/2))+(currentGrid.position.y*h)+(.7*h))+(.1*w)){
 				g.setScreen(new UpgradeScreen(g,this));
 			}
 		}

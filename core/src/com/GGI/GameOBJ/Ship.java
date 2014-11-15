@@ -21,7 +21,7 @@ public class Ship {
 
 	public int base;
 	
-	protected TextureRegion baseText;
+	public TextureRegion baseText;
 	public Vector2 position = new Vector2();
 	public Vector2 velocity = new Vector2();
 	public Rectangle bounds = new Rectangle();
@@ -31,7 +31,7 @@ public class Ship {
 	public float maxHealth;
 	public float currentHealth;
 	public float rotation = 0f;
-	public ShipStat stats;
+	//public ShipStat stats;
 	private String[] breakDown;
 	private Assets a;
 	

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import com.GGI.GameOBJ.Bullet;
 import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
-import com.GGI.GameOBJ.ShipStat;
 import com.GGI.Map.Map;
 import com.GGI.UI.Joystick;
 import com.badlogic.gdx.Gdx;
@@ -51,12 +50,12 @@ public class Assets {
 	public Texture blue;
 	public Texture motherShip;
 	public Texture wrench;
-	
+	public Texture nextShip;
 	
 	public Joystick move =new Joystick(new Vector2(.1f,.05f));
 	public Joystick aim =new Joystick(new Vector2(.8f,.05f));
 	
-	public ShipStat[] stats;
+	//public ShipStat[] stats;
 	
 	public Assets(Venture g){
 		this.g=g;
@@ -118,6 +117,7 @@ public class Assets {
 		blue = new Texture(Gdx.files.internal("UI/Blue.png"));
 		motherShip = new Texture(Gdx.files.internal("UI/Planet.png"));
 		wrench = new Texture(Gdx.files.internal("UI/Wrench.png"));
+		nextShip = new Texture(Gdx.files.internal("UI/NextShip.png"));
 		//end UI
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");
@@ -136,7 +136,7 @@ public class Assets {
 		FileHandle shipFile = Gdx.files.local("Ship.txt");
 		String shipS = shipFile.readString();
 		//TESTING
-		shipS = ""+(75/5);
+		//shipS = ""+(75/5);
 		//END TESTING
 		player = new Player(shipS,this);
 		
@@ -148,13 +148,20 @@ public class Assets {
 		neededXP=Integer.parseInt(stats[2]);
 		money=Integer.parseInt(stats[3]);
 		
-		lv=74;
+		//lv=74;
 		
 		
 	}
 	
 	public void save(){
+		FileHandle file = Gdx.files.local("Map.txt");
+		file.writeString(map.toString(),false);
 		
+		FileHandle file1 = Gdx.files.local("Stats.txt");
+		file1.writeString((int)(lv)+","+(int)(currentXP)+","+(int)(neededXP)+","+(int)(money),false);
+		
+		FileHandle file2 = Gdx.files.local("Ship.txt");
+		file2.writeString(""+player.base,false);
 	}
 	
 }

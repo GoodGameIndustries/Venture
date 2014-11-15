@@ -35,8 +35,8 @@ public class Player extends Ship{
 		
 		//bounds.width= a.stats[base].bounds;
 		//bounds.height=a.stats[base].bounds;
-		position.x=.5f-(bounds.width/2);
-		position.y=.5f-(bounds.height/2);
+		position.x=2f-(bounds.width/2);
+		position.y=2f-(bounds.height/2);
 		pX=.5f-(bounds.width/2);
 		pY=.5f-(bounds.height/2);
 		cx=position.x+(bounds.width/2);
@@ -67,6 +67,9 @@ public class Player extends Ship{
 
 	private void fire() {
 		if(reload<=0){
+			if(currentHealth<maxHealth){
+			currentHealth++;
+			}
 			reload=maxReload;
 		a.bullets.add(new Bullet(0,position.x+(bounds.width/2),position.y+(bounds.height/2),a.aim.diff.x,a.aim.diff.y,rotation));
 		}
