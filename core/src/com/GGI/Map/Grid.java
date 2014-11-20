@@ -6,6 +6,7 @@ package com.GGI.Map;
 import java.util.ArrayList;
 
 import com.GGI.GameOBJ.Enemy;
+import com.GGI.GameOBJ.Player;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -62,5 +63,49 @@ public class Grid {
 		if(position.y>0){position.y=0;}
 		if(position.x+bounds.width<1){position.x=-bounds.width+1;}
 		if(position.y+bounds.height<1){position.y=-bounds.height+1;}
+	}
+
+	public Enemy topRight(Player p) {
+		Enemy result = null;
+		for(int i = 0 ; i < enemies.size();i++){
+			if(enemies.get(i).position.x>=p.position.x&&enemies.get(i).position.y>=p.position.y){
+				result = enemies.get(i);
+				break;
+			}
+		}
+		return result;
+	}
+
+	public Enemy bottomRight(Player p) {
+		Enemy result = null;
+		for(int i = 0 ; i < enemies.size();i++){
+			if(enemies.get(i).position.x>=p.position.x&&enemies.get(i).position.y<p.position.y){
+				result = enemies.get(i);
+				break;
+			}
+		}
+		return result;
+	}
+
+	public Enemy topLeft(Player p) {
+		Enemy result = null;
+		for(int i = 0 ; i < enemies.size();i++){
+			if(enemies.get(i).position.x<p.position.x&&enemies.get(i).position.y>=p.position.y){
+				result = enemies.get(i);
+				break;
+			}
+		}
+		return result;
+	}
+
+	public Enemy bottomLeft(Player p) {
+		Enemy result = null;
+		for(int i = 0 ; i < enemies.size();i++){
+			if(enemies.get(i).position.x<p.position.x&&enemies.get(i).position.y<p.position.y){
+				result = enemies.get(i);
+				break;
+			}
+		}
+		return result;
 	}
 }

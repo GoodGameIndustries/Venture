@@ -27,7 +27,7 @@ public class UpgradeScreen implements Screen, InputProcessor{
 	private Map m;
 	private Button resume = new Button("UI/ResumeUp.png","UI/ResumeDown.png");
 	private Button buy = new Button("UI/BuyUp.png","UI/BuyDown.png");
-	boolean lock = false;//////Change this to true!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	boolean lock = true;//////Change this to true!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 	public UpgradeScreen(Venture g, GameScreen gs){
 		this.g=g;
@@ -38,9 +38,10 @@ public class UpgradeScreen implements Screen, InputProcessor{
 	
 	@Override
 	public void render(float delta) {
+		lock=true;
 		Gdx.gl.glClearColor(0f, 0f, 0f,1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		if(g.assets.lv/5>g.assets.player.base){lock=false;}
+		if(g.assets.lv/5>=g.assets.player.base){lock=false;}
 		
 		pic.begin();
 		pic.draw(g.assets.black, 0*w, .9f*h,w,.1f*h);
@@ -52,13 +53,16 @@ public class UpgradeScreen implements Screen, InputProcessor{
 		pic.draw(g.assets.nextShip,.6f*w,.6f*h,.4f*w,.3f*h);
 		
 		
-		if(g.assets.player.base<10&&!lock){
+		if(g.assets.player.base<15&&!lock){
 			pic.draw(buy.getState(),.64f*w,.6f*h,.2f*w,.1f*h);
 		fnt.draw(pic, "Cost: " + Math.pow(2,g.assets.player.base+1), .7f*w, .7f*h);
 		fnt.draw(pic, "Base Lv: " + (g.assets.player.base+1), .6f*w, .5f*h);
 		fnt.draw(pic, "Health: " + (g.assets.player.base+1)*5, .6f*w, .4f*h);
 		fnt.draw(pic, "Speed: " + (g.assets.player.base+1)*2, .6f*w, .3f*h);
 		fnt.draw(pic, "Reload Time: " +(100/(g.assets.player.base+1)), .6f*w, .2f*h);
+		}
+		else{
+			pic.draw(g.assets.newShip,.6f*w,.4f*h,.4f*w,.3f*h);
 		}
 		
 		pic.end();

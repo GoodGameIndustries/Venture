@@ -63,6 +63,9 @@ public class GameScreen implements Screen,InputProcessor{
 
 	@Override
 	public void render(float delta) {
+		if(player.currentHealth<player.maxHealth){
+			player.currentHealth+=(.01)*player.base;
+			}
 		Gdx.gl.glClearColor(0f, 0f, 0f,1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
@@ -73,6 +76,7 @@ public class GameScreen implements Screen,InputProcessor{
 		currentGrid=g.assets.map.home;
 		g.assets.map.x=g.assets.map.hX;
 		g.assets.map.y=g.assets.map.hY;
+		g.assets.bullets.clear();
 		player.currentHealth=player.maxHealth;
 		player.play();
 		g.assets.save();
@@ -94,6 +98,10 @@ public class GameScreen implements Screen,InputProcessor{
 		else if(player.position.y*h<0){g.assets.map.move(x, y-1);player.position.y=currentGrid.bounds.height-.2f;}
 		else if((player.position.y*h)+(player.bounds.height*w)>currentGrid.bounds.height*h){g.assets.map.move(x, y+1);player.position.y=.2f;}
 		pic.begin();
+
+		pic.draw(g.assets.stars,(float)(currentGrid.position.x*w),(float)(currentGrid.position.y*h),(float)(currentGrid.bounds.width*w),(float)(currentGrid.bounds.height*h));
+		
+		pic.draw(g.assets.grid,(float)(currentGrid.position.x*w),(float)(currentGrid.position.y*h),(float)(currentGrid.bounds.width*w),(float)(currentGrid.bounds.height*h));
 		
 		
 		currentGrid.position.x = -(player.position.x-.5f);
@@ -180,7 +188,7 @@ public class GameScreen implements Screen,InputProcessor{
 				}
 		
 		//render Player
-		pic.draw(g.assets.grid,(float)(currentGrid.position.x*w),(float)(currentGrid.position.y*h),(float)(currentGrid.bounds.width*w),(float)(currentGrid.bounds.height*h));
+		
 		//pic.draw(player.getText(),(float)(player.position.x*w),(float)(player.position.y*h),(float)(player.bounds.width*w),(float)(player.bounds.height*w));
 		pic.draw(new TextureRegion(player.getText()),(float)((player.position.x+currentGrid.position.x)*w),(float)((player.position.y+currentGrid.position.y)*h),(float)((player.bounds.width/2)*w),(float)((player.bounds.height/2)*w),(float)(player.bounds.width*w),(float)(player.bounds.height*w),1f,1f,player.rotation);
 		

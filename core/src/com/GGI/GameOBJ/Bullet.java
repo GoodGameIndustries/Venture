@@ -18,8 +18,8 @@ public class Bullet {
 		this.velocity.y = velocityY;
 		this.team=team;
 		this.rotation=rotation;
-		bounds.width=.02f;
-		bounds.height=.01f;
+		bounds.width=.04f;
+		bounds.height=.02f;
 		this.position.x=positionX-bounds.width/2;
 		this.position.y=positionY-bounds.height/2;
 	}

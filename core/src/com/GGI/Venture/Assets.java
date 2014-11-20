@@ -51,6 +51,8 @@ public class Assets {
 	public Texture motherShip;
 	public Texture wrench;
 	public Texture nextShip;
+	public Texture stars;
+	public Texture newShip;
 	
 	public Joystick move =new Joystick(new Vector2(.1f,.05f));
 	public Joystick aim =new Joystick(new Vector2(.8f,.05f));
@@ -94,7 +96,7 @@ public class Assets {
 		redLaser=new Texture(Gdx.files.internal("Ships/RedLaser.png"));
 		//end base pictures
 		//rank pictures
-		for(int i = 0; i < 15;i++){
+		for(int i = 0; i <= 15;i++){
 			ranks.add(new Texture(Gdx.files.internal("Ranks/Rank" + i +".png")));
 		}
 		//end rank pictures
@@ -118,6 +120,8 @@ public class Assets {
 		motherShip = new Texture(Gdx.files.internal("UI/Planet.png"));
 		wrench = new Texture(Gdx.files.internal("UI/Wrench.png"));
 		nextShip = new Texture(Gdx.files.internal("UI/NextShip.png"));
+		stars = new Texture(Gdx.files.internal("UI/Background.png"));
+		newShip = new Texture(Gdx.files.internal("UI/NewShip.png"));
 		//end UI
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");

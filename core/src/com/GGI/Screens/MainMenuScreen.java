@@ -199,7 +199,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		if(screenX>(int)(w-(.35*w)) && screenX<(int)(w-(.1*w))){
 			//System.out.println("x");
 			if(screenY>(int)(.05*h)&&screenY<(int)((.05*h)+(.15*h))){
-				//help.press();
+				g.setScreen(new InstructionScreen(g));
 			}
 			else if(screenY>(int)(.2*h)&&screenY<(int)((.2*h)+(.15*h))){
 				g.assets.player.play();
