@@ -94,4 +94,22 @@ public class Enemy extends Ship{
 		}
 	}
 	
+	public void die(){
+		int rand = (int)((Math.random()*base)*2)+1;
+		for(int i = 0; i < rand;i++){
+			Drop drop = new Drop(a,0);
+			drop.position.x=position.x;
+			drop.position.y=position.y;
+			a.drops.add(drop);
+			
+		}
+		rand = (int)((Math.random()*base)*2)+1;
+		for(int i = 0; i < rand;i++){
+			Drop drop = new Drop(a,1);
+			drop.position.x=position.x;
+			drop.position.y=position.y;
+			a.drops.add(drop);
+		}
+	}
+	
 }

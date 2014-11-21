@@ -6,6 +6,7 @@ package com.GGI.Venture;
 import java.util.ArrayList;
 
 import com.GGI.GameOBJ.Bullet;
+import com.GGI.GameOBJ.Drop;
 import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
 import com.GGI.Map.Map;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Assets {
 
+	public ArrayList<Drop> drops = new ArrayList<Drop>();
 	public float currentXP,neededXP;
 	public int lv,money;
 	public Player player;
@@ -53,6 +55,8 @@ public class Assets {
 	public Texture nextShip;
 	public Texture stars;
 	public Texture newShip;
+	public Texture cash;
+	public Texture exp;
 	
 	public Joystick move =new Joystick(new Vector2(.1f,.05f));
 	public Joystick aim =new Joystick(new Vector2(.8f,.05f));
@@ -122,6 +126,8 @@ public class Assets {
 		nextShip = new Texture(Gdx.files.internal("UI/NextShip.png"));
 		stars = new Texture(Gdx.files.internal("UI/Background.png"));
 		newShip = new Texture(Gdx.files.internal("UI/NewShip.png"));
+		cash = new Texture(Gdx.files.internal("UI/Money.png"));
+		exp = new Texture(Gdx.files.internal("UI/XP.png"));
 		//end UI
 		
 		FileHandle mapFile = Gdx.files.local("Map.txt");

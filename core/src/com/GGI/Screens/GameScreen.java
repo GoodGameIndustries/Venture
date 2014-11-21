@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.GGI.GameOBJ.Bullet;
+import com.GGI.GameOBJ.Drop;
 import com.GGI.GameOBJ.Enemy;
 import com.GGI.GameOBJ.Player;
 import com.GGI.Map.Grid;
@@ -115,7 +116,36 @@ public class GameScreen implements Screen,InputProcessor{
 			g.assets.aim.move(touches.get(aimP).touchX, touches.get(aimP).touchY);
 		}
 		
+		//render xp
+		for(int i = 0; i < g.assets.drops.size();i++){
+			Drop drop = g.assets.drops.get(i);
+			if(drop.isDone){
+				switch(drop.state){
+				case 0:g.assets.money++;
+				break;
+				case 1:g.assets.currentXP++;
+				break;
+				}
+				if(g.assets.currentXP>=g.assets.neededXP){g.assets.lv++;g.assets.currentXP-=g.assets.neededXP;
+				g.assets.neededXP+=(int)(.2*g.assets.neededXP);g.assets.save();
+				}
+				g.assets.drops.remove(drop);
+			}
+			else{
+				drop.move();
+			}
+		}
 		
+		for(int i = 0; i < g.assets.drops.size(); i++){
+			Drop drop = g.assets.drops.get(i);
+			if(drop.state==0){
+				pic.draw(g.assets.cash,drop.position.x*w,drop.position.y*h,drop.bounds.width*w,drop.bounds.height*w);
+			}
+			else{
+				pic.draw(g.assets.exp,drop.position.x*w,drop.position.y*h,drop.bounds.width*w,drop.bounds.height*w);
+			}
+		}
+		//end render xp
 		
 		//render bullets
 		
@@ -146,11 +176,10 @@ public class GameScreen implements Screen,InputProcessor{
 						e.move(delta);
 						e.reload--;
 						if(e.currentHealth<=0){
-							g.assets.currentXP+=(int)((Math.random()*e.base)*2)+1;
-							g.assets.money+=(int)((Math.random()*e.base)*2)+1;
-							if(g.assets.currentXP>=g.assets.neededXP){g.assets.lv++;g.assets.currentXP-=g.assets.neededXP;
-							g.assets.neededXP+=(int)(.2*g.assets.neededXP);g.assets.save();
-							}
+							e.die();
+							//g.assets.currentXP+=(int)((Math.random()*e.base)*2)+1;
+							//g.assets.money+=(int)((Math.random()*e.base)*2)+1;
+							
 							currentGrid.enemies.remove(e);}
 						//System.out.println("Enemy Rendered");
 						if((e.position.x*w)<0){e.position.x=currentGrid.bounds.width-.1f;}
